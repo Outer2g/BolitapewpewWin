@@ -18,6 +18,8 @@ public:
     void draw();
     void boost(float Boost,int x, int y);
 	bool rekt(int x,int y);
+	bool hit(Pelota& ball2);
+	void avoid(Pelota& ball2);
 };
 
 #endif // PELOTA_HPP

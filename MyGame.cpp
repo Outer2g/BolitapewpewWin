@@ -31,6 +31,17 @@ void MyGame::update(float deltaTime){
 	text2 << fps;
 	std::string str = text2.str();
 	fpsText.setString(str);
+	//balls colision
+	for (int i = 0; i < balls.size(); i++)
+	{
+		for (int j = i + 1; j < balls.size(); j++)
+		{
+			if (balls[i].hit(balls[j]))
+			{
+				balls[i].avoid(balls[j]);
+			}
+		}
+	}
 }
 
 void MyGame::draw(){
@@ -83,4 +94,8 @@ void MyGame::processEvents(float deltaTime){
 
 sf::RenderWindow *MyGame::getWindow() {
     return &window;
+}
+
+std::vector<Pelota> MyGame::getBalls(){
+	return this->balls;
 }

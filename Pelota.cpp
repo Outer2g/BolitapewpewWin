@@ -34,8 +34,10 @@ void Pelota::update(float deltaTime) {
     if (movimiento.x+ball.getRadius()>leftBorder or movimiento.x-ball.getRadius()<0.0) speed.x*=-1;
 	//techo
 	if (movimiento.y<0){
-		speed.y = 0;
+		speed.y = 50;
 	}
+	//Ball colisions
+
 }
 
 void Pelota::draw() {
@@ -44,23 +46,14 @@ void Pelota::draw() {
 }
 
 void Pelota::boost(float Boost,int x,int y){
-    boundRect=ball.getGlobalBounds();
-    bool inX= (boundRect.left< x and boundRect.left+boundRect.width > x);
-    bool inY= (boundRect.top<y and boundRect.top+boundRect.height> y);
-    if (inX and inY){
+    if (CheckCol(x,y)){
 		speed.y -= Boost;
     }
     else if (ball.getPosition().y<0) speed.y=0.0;
 
 }
 bool Pelota::rekt(int x, int y){
-	boundRect = ball.getGlobalBounds();
-	bool inX = (boundRect.left< x and boundRect.left + boundRect.width > x);
-	bool inY = (boundRect.top<y and boundRect.top + boundRect.height> y);
-	if (inX and inY){
-		return true;
-		}
-	return false;
+	return CheckCol(x, y);
 	}
 
 bool Pelota::CheckCol(int x, int y){
@@ -71,4 +64,24 @@ bool Pelota::CheckCol(int x, int y){
 		return true;
 	}
 	return false;
+}
+bool Pelota::hit(Pelota& ball2){
+	float xd = ball.getPosition().x - ball2.ball.getPosition().x;
+	float yd = ball.getPosition().y - ball2.ball.getPosition().y;
+
+	float sumRadius = ball.getRadius() + ball2.ball.getRadius();
+	float sqrRadius = sumRadius * sumRadius;
+
+	float distSqr = (xd * xd) + (yd * yd);
+
+	if (distSqr <= sqrRadius)
+	{
+		return true;
+	}
+
+	return false;
+}
+void Pelota::avoid(Pelota& ball2){
+	this->speed.x *= -1;
+	ball2.speed.x *= -1;
 }

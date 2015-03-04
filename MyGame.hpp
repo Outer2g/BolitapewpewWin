@@ -11,6 +11,7 @@ public:
     void draw();
     void processEvents(float deltaTime);
     sf::RenderWindow* getWindow();
+	std::vector<Pelota> getBalls();
 private:
     std::vector<Pelota> balls;
     float timer;
